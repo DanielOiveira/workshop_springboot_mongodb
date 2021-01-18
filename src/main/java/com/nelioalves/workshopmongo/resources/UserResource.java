@@ -4,8 +4,6 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.servlet.ServletSecurityElement;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -52,6 +50,15 @@ public class UserResource {
 	@RequestMapping(value = "/{id}", method=RequestMethod.DELETE)
 	public ResponseEntity<Void> deleteById(@PathVariable String id){
 		 service.deleteById(id);
+		
+		return ResponseEntity.noContent().build();
+	}
+	
+	@RequestMapping(value = "/{id}", method=RequestMethod.PUT)
+	public ResponseEntity<Void> update(@RequestBody UserDTO objDto, @PathVariable String id){
+		User obj = service.fromDTO(objDto);
+		obj.setId(id);
+		obj = service.update(obj);
 		
 		return ResponseEntity.noContent().build();
 	}
